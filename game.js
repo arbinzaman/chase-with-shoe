@@ -1,7 +1,6 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-
 // =====================
 // RESPONSIVE
 // =====================
@@ -35,10 +34,21 @@ let distance = 250;
 
 
 // =====================
-// SOUND
+// SOUND (MOBILE FIXED)
 // =====================
 let gameOverSound = new Audio("./fah.mp3");
 gameOverSound.preload = "auto";
+gameOverSound.volume = 1;
+
+// Unlock audio on first touch/click (required for mobile)
+function unlockAudio() {
+  gameOverSound.play().then(() => {
+    gameOverSound.pause();
+    gameOverSound.currentTime = 0;
+  }).catch(() => {});
+}
+document.addEventListener("touchstart", unlockAudio, { once: true });
+document.addEventListener("click", unlockAudio, { once: true });
 
 
 // =====================
@@ -100,7 +110,7 @@ setInterval(spawnObstacle, 1500);
 
 
 // =====================
-// JUMP
+// JUMP (DOUBLE)
 // =====================
 function jump() {
   if (runner.jumps < runner.maxJumps && !gameOver) {
@@ -270,13 +280,6 @@ function update() {
       gameOverSound.play();
     }
     gameOver = true;
-  }
-
-  // Chaser Animation
-  chaser.frameTimer++;
-  if (chaser.frameTimer > 8) {
-    chaser.frame = (chaser.frame + 1) % 2;
-    chaser.frameTimer = 0;
   }
 
   // Draw Runner
