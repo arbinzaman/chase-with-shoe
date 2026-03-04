@@ -1,6 +1,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+
 // =====================
 // RESPONSIVE
 // =====================
@@ -15,6 +16,7 @@ resizeCanvas();
 document.body.style.margin = "0";
 document.body.style.overflow = "hidden";
 canvas.style.touchAction = "none";
+
 
 // =====================
 // GAME SETTINGS
@@ -31,6 +33,14 @@ let baseY;
 
 let distance = 250;
 
+
+// =====================
+// SOUND
+// =====================
+let gameOverSound = new Audio("./fah.mp3");
+gameOverSound.preload = "auto";
+
+
 // =====================
 // IMAGES
 // =====================
@@ -42,6 +52,7 @@ chaserImg.src = "./chaser.png";
 
 let obstacleImg = new Image();
 obstacleImg.src = "./obstacle.svg";
+
 
 // =====================
 // PLAYER
@@ -56,6 +67,7 @@ let runner = {
   maxJumps: 2
 };
 
+
 // =====================
 // CHASER
 // =====================
@@ -67,6 +79,7 @@ let chaser = {
   frame: 0,
   frameTimer: 0
 };
+
 
 // =====================
 // OBSTACLES
@@ -84,6 +97,7 @@ function spawnObstacle() {
   }
 }
 setInterval(spawnObstacle, 1500);
+
 
 // =====================
 // JUMP
@@ -104,6 +118,7 @@ canvas.addEventListener("touchstart", () => {
   else jump();
 });
 
+
 // =====================
 // RESTART
 // =====================
@@ -120,6 +135,7 @@ function restartGame() {
   update();
 }
 
+
 // =====================
 // BACKGROUND
 // =====================
@@ -128,6 +144,7 @@ let bgMid = 0;
 let groundOffset = 0;
 
 function drawBackground() {
+
   baseY = canvas.height - groundHeight;
 
   // Sky
@@ -176,6 +193,7 @@ function drawBackground() {
   }
 }
 
+
 // =====================
 // GAME LOOP
 // =====================
@@ -183,12 +201,16 @@ function update() {
 
   if (gameOver) {
     drawBackground();
+
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
+
     ctx.font = "50px Arial";
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+
     ctx.font = "25px Arial";
     ctx.fillText("Tap To Restart", canvas.width / 2, canvas.height / 2 + 50);
+
     return;
   }
 
@@ -243,6 +265,10 @@ function update() {
   if (distance > 0) {
     chaser.x = runner.x - distance;
   } else {
+    if (!gameOver) {
+      gameOverSound.currentTime = 0;
+      gameOverSound.play();
+    }
     gameOver = true;
   }
 
