@@ -20,10 +20,10 @@ let groundOffset = 0;
 
 // Images
 let runnerImg = new Image();
-runnerImg.src = "./runner.svg";
+runnerImg.src = "./runner.png";
 
 let chaserImg = new Image();
-chaserImg.src = "./chaser.svg";
+chaserImg.src = "./chaser.png";
 
 let obstacleImg = new Image();
 obstacleImg.src = "./obstacle.svg";
@@ -33,7 +33,7 @@ let runner = {
   x: 200,
   y: 0,
   width: 80,
-  height: 80,
+  height: 100,
   dy: 0,
   jumping: false
 };
@@ -42,7 +42,7 @@ let chaser = {
   x: 50,
   y: 0,
   width: 80,
-  height: 80
+  height: 100
 };
 
 let obstacles = [];
